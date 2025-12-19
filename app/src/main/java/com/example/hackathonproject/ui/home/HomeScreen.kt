@@ -79,24 +79,28 @@ fun HomeScreen(
             topBar = {
                 TopAppBar(
                     title = {
-                        Text("StudyNest", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        Text("StudyNest", fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color.Black)
                     },
                     actions = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = null)
+                            Icon(Icons.Default.Menu, contentDescription = "Menu",tint=Color.Black)
                         }
-                    }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.White
+                    )
                 )
             },
             containerColor = Color(0xFFF0F4FC)
-        ) { padding ->
+        ) { innerPadding ->
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-                    .padding(16.dp)
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp)
             ) {
-                Text("Welcome to StudyNest", fontSize = 16.sp)
+                Spacer(modifier = Modifier.height(16.dp))
+                Text("Welcome to StudyNest", fontSize = 16.sp,fontWeight = FontWeight.Medium)
                 Spacer(modifier = Modifier.height(16.dp))
 
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -225,16 +229,15 @@ fun SubjectItem(subject: Subject, onClick: () -> Unit) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         painter = painterResource(subject.iconRes),
-                        contentDescription = subject.name,
-                        tint = Color.White,
-                        modifier = Modifier.size(24.dp)
+                        contentDescription = null,
+                        tint = Color.White
                     )
                 }
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(subject.name, fontWeight = FontWeight.Bold)
-                Text(subject.code, color = Color.Gray, fontSize = 13.sp)
+                Text(subject.name, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(subject.code, color = Color.Gray, fontSize = 14.sp)
             }
         }
     }
