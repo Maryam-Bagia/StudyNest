@@ -5,13 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,6 +23,7 @@ import com.example.hackathonproject.data.model.MaterialType
 import com.example.hackathonproject.ui.theme.HackathonProjectTheme
 import com.example.hackathonproject.viewmodel.AuthViewModel
 import kotlinx.coroutines.launch
+import com.example.hackathonproject.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -50,7 +53,7 @@ fun SubjectHomeScreen(
                         },
                         onLogoutClick = {
                             authViewModel.signout()
-                        }
+                        },
                     )
                 }
             }
@@ -136,7 +139,7 @@ fun SubjectHomeScreen(
 fun SubjectDrawerContent(
     onCloseClick: () -> Unit,
     onMenuItemClick: (MaterialType) -> Unit,
-    onLogoutClick: () -> Unit
+    onLogoutClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -156,58 +159,35 @@ fun SubjectDrawerContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Profile Section
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.secondaryContainer,
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(48.dp)
-                ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Default.Person, null, tint = MaterialTheme.colorScheme.onPrimary)
-                    }
-                }
-                Spacer(modifier = Modifier.width(12.dp))
-                Column {
-                    Text("Student Name", fontWeight = FontWeight.SemiBold, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSecondaryContainer)
-                    Text("bagiamaryam8@gmail.com", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                    Text("EN: 246150307008", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                    Text("Sem: 3", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         Spacer(modifier = Modifier.height(16.dp))
 
         // Menu Items
         val menuItems = listOf(
-            Triple(MaterialType.SYLLABUS, Icons.Default.DateRange, "Syllabus"),
-            Triple(MaterialType.LAB_MANUAL, Icons.Default.Build, "Lab Manual"),
-            Triple(MaterialType.NOTES, Icons.Default.Menu, "Notes"),
-            Triple(MaterialType.ASSIGNMENT, Icons.Default.DateRange, "Assignment"),
-            Triple(MaterialType.PREVIOUS_PAPERS, Icons.Default.CheckCircle, "Previous Papers"),
-            Triple(MaterialType.VIDEOS, Icons.Default.PlayArrow, "Videos"),
-            Triple(MaterialType.OTHERS, Icons.Default.Star, "Others")
+            Triple(MaterialType.SYLLABUS, R.drawable.outline_book_ribbon_24, "Syllabus"),
+            Triple(MaterialType.LAB_MANUAL, R.drawable.outline_experiment_24, "Lab Manual"),
+            Triple(MaterialType.NOTES, R.drawable.outline_two_pager_24, "Notes"),
+            Triple(MaterialType.ASSIGNMENT, R.drawable.baseline_assignment_24, "Assignment"),
+            Triple(MaterialType.PREVIOUS_PAPERS, R.drawable.outline_question_mark_24, "Previous Papers"),
+            Triple(MaterialType.VIDEOS, R.drawable.outline_videocam_24, "Videos"),
+            Triple(MaterialType.OTHERS, R.drawable.outline_folder_copy_24, "Others")
         )
 
-        menuItems.forEach { (type, icon, label) ->
-            DrawerItem(icon, label) { onMenuItemClick(type) }
-            Spacer(modifier = Modifier.height(8.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            menuItems.forEach { (type, iconRes, label) ->
+                DrawerItem(
+                    icon = painterResource(id = iconRes),
+                    label = label
+                ) {
+                    onMenuItemClick(type)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        // Logout
+        // Logout Section
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -215,15 +195,19 @@ fun SubjectDrawerContent(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(Icons.Default.ExitToApp, null, tint = Color.Red)
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                contentDescription = null,
+                tint = Color.Red
+            )
             Spacer(modifier = Modifier.width(16.dp))
-            Text("Logout", color = Color.Red, fontWeight = FontWeight.Medium)
+            Text(text = "Logout", color = Color.Red, fontWeight = FontWeight.Medium)
         }
     }
 }
 
 @Composable
-fun DrawerItem(icon: ImageVector, label: String, onClick: () -> Unit) {
+fun DrawerItem(icon: Painter, label: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -231,7 +215,12 @@ fun DrawerItem(icon: ImageVector, label: String, onClick: () -> Unit) {
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(24.dp))
+        Icon(
+            icon,
+            null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(24.dp)
+        )
         Spacer(modifier = Modifier.width(24.dp))
         Text(text = label, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface)
     }

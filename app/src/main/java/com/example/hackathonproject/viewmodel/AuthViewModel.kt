@@ -32,11 +32,11 @@ class AuthViewModel : ViewModel(){
         _authState.value = AuthState.Loading
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener{task->
-               if(task.isSuccessful){
+                if(task.isSuccessful){
                     _authState.value = AuthState.Authenticated
-               }else{
+                }else{
                     _authState.value = AuthState.Error(task.exception?.message?:"Something went wrong! Please try again later.")
-               }
+                }
             }
     }
 

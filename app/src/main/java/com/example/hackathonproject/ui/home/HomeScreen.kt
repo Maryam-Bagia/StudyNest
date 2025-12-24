@@ -77,7 +77,7 @@ fun HomeScreen(
                         onCloseClick = { scope.launch { drawerState.close() } },
                         isDarkMode = isDarkMode,
                         onThemeToggle = { isDarkMode = it },
-                        onLogoutClick = { authViewModel.signout() }
+                        onLogoutClick = { authViewModel.signout() },
                     )
                 }
             }
@@ -159,18 +159,13 @@ fun HomeDrawerContent(
                     modifier = Modifier.size(48.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        Icon(Icons.Default.Person, contentDescription = "User", tint = MaterialTheme.colorScheme.onPrimary)
+                        R.drawable.whatsapp_image_2025_12_20_at_8_22_21_pm
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text("StudyNest")
                     }
                 }
 
                 Spacer(modifier = Modifier.width(12.dp))
-
-                Column {
-                    Text("Student Name", fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSecondaryContainer)
-                    Text("bagiamaryam8@gmail.com", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                    Text("EN: 246150307008", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                    Text("Sem: 3", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f))
-                }
             }
         }
 

@@ -4,40 +4,16 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,11 +31,11 @@ import com.example.hackathonproject.viewmodel.AuthViewModel
 
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier,navController: NavController, authViewModel: AuthViewModel) {
-    var password by remember { mutableStateOf("") }
+fun SignUpScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+    var enrollmentNumber by remember { mutableStateOf("") }
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
-    var semester by remember { mutableStateOf("Semester 2") }
+    var semester by remember { mutableStateOf("Semester 3") }
 
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -69,11 +45,14 @@ fun SignUpScreen(modifier: Modifier = Modifier,navController: NavController, aut
 
     LaunchedEffect(authState.value){
         when(authState.value){
-            is AuthState.Authenticated -> navController.navigate("home")
-            is AuthState.Error -> Toast.makeText(context,(authState.value as AuthState.Error).message,Toast.LENGTH_SHORT)
+            is AuthState.Authenticated -> {
+                navController.navigate("home") {
+                    popUpTo("signup") { inclusive = true }
+                }
+            }
+            is AuthState.Error -> Toast.makeText(context,(authState.value as AuthState.Error).message,Toast.LENGTH_SHORT).show()
             else -> Unit
         }
-
     }
 
     Column(
@@ -140,9 +119,9 @@ fun SignUpScreen(modifier: Modifier = Modifier,navController: NavController, aut
         // Form Fields
         RegistrationInputField(
             label = "Enrollment Number",
-            value = password,
-            onValueChange = { password = it },
-            placeholder = "e.g.  256150307XXX"
+            value = enrollmentNumber,
+            onValueChange = { enrollmentNumber = it },
+            placeholder = "e.g.  246150307XXX"
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -177,7 +156,7 @@ fun SignUpScreen(modifier: Modifier = Modifier,navController: NavController, aut
         // Register Button
         Button(
             onClick = {
-                authViewModel.signup(email,password)
+                authViewModel.signup(email, enrollmentNumber)
             },
             enabled = authState.value != AuthState.Loading,
             modifier = Modifier
@@ -188,12 +167,16 @@ fun SignUpScreen(modifier: Modifier = Modifier,navController: NavController, aut
                 containerColor = Color(0xFF2B5CFA)
             )
         ) {
-            Text(
-                text = "Register",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White
-            )
+            if (authState.value is AuthState.Loading) {
+                CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+            } else {
+                Text(
+                    text = "Register",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -247,12 +230,12 @@ fun RegistrationInputField(
             placeholder = { Text(placeholder, color = Color.LightGray) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            colors = TextFieldDefaults.colors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
                 disabledContainerColor = Color.White,
-                focusedIndicatorColor = Color(0xFFE0E0E0),
-                unfocusedIndicatorColor = Color(0xFFE0E0E0)
+                focusedBorderColor = Color(0xFFE0E0E0),
+                unfocusedBorderColor = Color(0xFFE0E0E0)
             )
         )
     }
