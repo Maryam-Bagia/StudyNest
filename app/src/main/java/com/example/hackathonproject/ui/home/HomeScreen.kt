@@ -1,6 +1,5 @@
 package com.example.hackathonproject.ui.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -159,7 +158,7 @@ fun HomeDrawerContent(
                     modifier = Modifier.size(48.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
-                        R.drawable.whatsapp_image_2025_12_20_at_8_22_21_pm
+                        R.drawable.app_logo
                         Spacer(modifier = Modifier.width(16.dp))
                         Text("StudyNest")
                     }

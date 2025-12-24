@@ -1,7 +1,9 @@
 package com.example.hackathonproject.ui.auth
 
+import android.R.attr.shape
 import android.widget.Toast
 import android.widget.Toast.makeText
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -42,11 +44,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import com.example.hackathonproject.viewmodel.AuthState
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
@@ -78,18 +83,18 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
         // Logo / Icon
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFF2B5CFA), // Blue color
+            color = Color.Transparent, // Changed to transparent if your logo already has a background
             modifier = Modifier.size(80.dp)
         ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = Icons.Default.AccountCircle,
-                    contentDescription = "Logo",
-                    tint = Color.White,
-                    modifier = Modifier.size(48.dp)
-                )
-            }
+        Box(contentAlignment = Alignment.Center) {
+            Image(
+                painter = painterResource(id = com.example.hackathonproject.R.drawable.app_logo),
+                contentDescription = "App Logo",
+                modifier = Modifier.size(80.dp) // Keeps the same size as the container
+            )
         }
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
