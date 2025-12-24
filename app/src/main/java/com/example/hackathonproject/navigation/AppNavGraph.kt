@@ -32,11 +32,12 @@ fun AppNavGraph(
             HomeScreen(navController = navController, authViewModel = authViewModel)
         }
         composable(
-            route = "subject_home/{subjectId}/{subjectName}/{subjectCode}",
+            route = "subject_home/{subjectId}/{subjectName}/{subjectCode}?isDarkMode={isDarkMode}",
             arguments = listOf(
                 navArgument("subjectId") { type = NavType.StringType },
                 navArgument("subjectName") { type = NavType.StringType },
-                navArgument("subjectCode") { type = NavType.StringType }
+                navArgument("subjectCode") { type = NavType.StringType },
+                navArgument("isDarkMode") { type = NavType.BoolType; defaultValue = false }
             )
         ) { backStackEntry ->
             SubjectHomeScreen(
@@ -44,22 +45,25 @@ fun AppNavGraph(
                 authViewModel = authViewModel,
                 subjectId = backStackEntry.arguments?.getString("subjectId"),
                 subjectName = backStackEntry.arguments?.getString("subjectName"),
-                subjectCode = backStackEntry.arguments?.getString("subjectCode")
+                subjectCode = backStackEntry.arguments?.getString("subjectCode"),
+                isDarkMode = backStackEntry.arguments?.getBoolean("isDarkMode") ?: false
             )
         }
         composable(
-            route = "material_list/{subjectId}/{subjectName}/{materialType}",
+            route = "material_list/{subjectId}/{subjectName}/{materialType}?isDarkMode={isDarkMode}",
             arguments = listOf(
                 navArgument("subjectId") { type = NavType.StringType },
                 navArgument("subjectName") { type = NavType.StringType },
-                navArgument("materialType") { type = NavType.StringType }
+                navArgument("materialType") { type = NavType.StringType },
+                navArgument("isDarkMode") { type = NavType.BoolType; defaultValue = false }
             )
         ) { backStackEntry ->
             MaterialListScreen(
                 navController = navController,
                 subjectId = backStackEntry.arguments?.getString("subjectId"),
                 subjectName = backStackEntry.arguments?.getString("subjectName"),
-                materialTypeName = backStackEntry.arguments?.getString("materialType")
+                materialTypeName = backStackEntry.arguments?.getString("materialType"),
+                isDarkMode = backStackEntry.arguments?.getBoolean("isDarkMode") ?: false
             )
         }
     }
