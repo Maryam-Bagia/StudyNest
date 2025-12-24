@@ -1,6 +1,5 @@
 package com.example.hackathonproject.ui.auth
 
-import android.R.attr.shape
 import android.widget.Toast
 import android.widget.Toast.makeText
 import androidx.compose.foundation.Image
@@ -17,11 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -50,8 +46,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import com.example.hackathonproject.viewmodel.AuthState
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
@@ -75,7 +69,7 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFFF0F4FC)) // Light blue background
+            .background(Color(0xFFF0F4FC))
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -83,14 +77,14 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
         // Logo / Icon
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color.Transparent, // Changed to transparent if your logo already has a background
+            color = Color.Transparent,
             modifier = Modifier.size(80.dp)
         ) {
         Box(contentAlignment = Alignment.Center) {
             Image(
                 painter = painterResource(id = com.example.hackathonproject.R.drawable.app_logo),
                 contentDescription = "App Logo",
-                modifier = Modifier.size(80.dp) // Keeps the same size as the container
+                modifier = Modifier.size(80.dp)
             )
         }
         }
@@ -194,7 +188,6 @@ fun LoginScreen(modifier: Modifier = Modifier, navController: NavController, aut
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Register Text with specific styling and hover underline
         TextButton(
             onClick = {
                 navController.navigate("signup")
