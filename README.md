@@ -71,6 +71,12 @@ Many students struggle to find all study materials at one place.
 
 ---
 
+## Install this app on your phone (Only Android)
+
+https://drive.google.com/file/d/1huqLYlBcOdrwfu3SFDlI_azxSnQmmdhb/view?usp=sharing
+
+---
+
 ## 👩‍💻 Developed By
 
 **Maryam Bagia**  
